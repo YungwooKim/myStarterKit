@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx @playwright/mcp --version)",
+      "Bash(claude mcp:*)",
+      "Bash(npx playwright:*)",
+      "Bash(find /d/dev/study/claude-code-mastery/StarterKit/playwright-report -name *.json)",
+      "Bash(npx prisma:*)",
+      "Bash(npm run:*)",
+      "Bash(npx ts-node:*)",
+      "Bash(npx tsx:*)",
+      "Bash(npx tsc:*)"
+    ]
+  }
+}

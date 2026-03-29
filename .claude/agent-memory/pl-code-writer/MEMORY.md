@@ -1,0 +1,1 @@
+- [StarterKit 프로젝트 정보](project_starterkit.md) — Next.js 14 + Supabase + Prisma 스타터킷, 기술스택/엔티티/인증흐름 정리

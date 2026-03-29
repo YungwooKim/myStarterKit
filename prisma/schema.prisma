@@ -1,0 +1,69 @@
+// StarterKit 데이터베이스 스키마
+// Supabase PostgreSQL + Prisma ORM 사용
+// PgBouncer 트랜잭션 풀링(DATABASE_URL) + Direct URL(DIRECT_URL) 이중 설정
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// 역할 마스터 테이블 (RBAC)
+// id는 고정 문자열 (ADMIN / HR / USER)
+model UserRole {
+  id        String     @id
+  name      String
+  users     User[]
+  roleMenus RoleMenu[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+// 사용자 테이블
+// roleId는 UserRole.id를 참조 (기본값: USER)
+// password는 bcryptjs로 해싱하여 저장
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  roleId    String   @default("USER")
+  userRole  UserRole @relation(fields: [roleId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 메뉴 테이블 (자기 참조 트리 구조)
+// parentId가 null이면 최상위 메뉴
+// order로 같은 레벨 내 정렬 순서 제어
+model Menu {
+  id        String     @id @default(cuid())
+  name      String
+  path      String?    // 연결할 URL 경로 (null이면 카테고리 메뉴)
+  icon      String?    // 아이콘 이름
+  order     Int        @default(0)
+  parentId  String?
+  parent    Menu?      @relation("MenuTree", fields: [parentId], references: [id])
+  children  Menu[]     @relation("MenuTree")
+  isActive  Boolean    @default(true)
+  roleMenus RoleMenu[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+// 역할-메뉴 매핑 테이블 (RBAC 접근 제어)
+// roleId + menuId 복합 유니크 제약으로 중복 등록 방지
+// Menu 삭제 시 연관 RoleMenu도 함께 삭제 (Cascade)
+model RoleMenu {
+  id     String   @id @default(cuid())
+  roleId String
+  menuId String
+  role   UserRole @relation(fields: [roleId], references: [id])
+  menu   Menu     @relation(fields: [menuId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, menuId])
+}
