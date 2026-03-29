@@ -9,7 +9,14 @@
       "Bash(npm run:*)",
       "Bash(npx ts-node:*)",
       "Bash(npx tsx:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(xargs ls:*)",
+      "Bash(find /c/Users/User/.claude -name *settings*schema* -o -name *schema*claude*)",
+      "Bash(curl:*)",
+      "Bash(echo '{\"\"\"\"cwd\"\"\"\":\"\"\"\"D:\\\\\\\\dev\\\\\\\\study\\\\\\\\claude-code-mastery\\\\\\\\StarterKit\"\"\"\",\"\"\"\"message\"\"\"\":\"\"\"\"파일 수정 권한이 필요합니다\"\"\"\"}')",
+      "Bash(node /c/Users/User/.claude/hooks/slack-notify.js Notification)",
+      "Bash(echo '{\"\"\"\"cwd\"\"\"\":\"\"\"\"D:\\\\\\\\dev\\\\\\\\study\\\\\\\\claude-code-mastery\\\\\\\\StarterKit\"\"\"\"}')",
+      "Bash(node /c/Users/User/.claude/hooks/slack-notify.js Stop)"
     ]
   }
 }
